@@ -32,8 +32,8 @@ c.	It is important to set the tmp directory for TargetP to the tmp directory for
 
 However, due to the TargetP 1.1 and SignalP 3.0’s limitation to UNIX platforms, for SAPshodt only UNIX platforms are feasible in this option.
 
-###To prepare input files
-1)	Human FASTA format file from Uniprot  
+To prepare input files
+###1)	Human FASTA format file from Uniprot  
 
 The primary protein sequences used to generate a SAP heterogeneity database should be provided with FASTA format. It’s suggested that users get the primary protein sequences from Uniprot database. Users can either get the whole human proteome dataset from the websit (http://www.uniprot.org/) by advanced search or extracted from the UniProtKB/Swiss-Prot and UniProtKB/TrEMBL files reposited in ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/.Sometimes, you may only want to deal with a subset of this dataset, not the whole human proteome, you can list this subset’s all protein accessions in a new file, and one line, one accession. SAPshodt can automatically extract the subset sequences from the whole proteome.  
 
@@ -89,15 +89,15 @@ Run it from ./SAPshodt/bin/. You can run it this way, e.g.:
 > nohup perl SAPshodt.pl –fasta <fasta_file> –sapfile <SAP file> –outfile <output file> &
 
 -fasta <fasta_file>     : FASTA-format protein sequence file from Uniprot to be handled  
--sapfile <SAP file>    : Uniprot-ID SAP file including “Protein Accession”, “Location” and “SAP” each line  
+-sapfile <SAP file>     : Uniprot-ID SAP file including “Protein Accession”, “Location” and “SAP” each line  
 -outfile <output file>  : output file  
 
 Additional options:
 
--h		      : show this help  
--inc <file>	      : specify whether only to handle some proteins in the fasta_file (default: all), otherwise please use this option to input a file containing protein accessions. These two kinds of accessions are both allowed:  “sp|P31946|1433B_HUMAN” or “P31946”                
--targetp <Y/N>    : specify whether to use TargetP (SignalP) to predict transit or signal peptides, and then to append these                     peptides to the original sequence (default: N)   
--spfile <file>    : specify whether to get conflicting sequences from Swiss-Prot conflict annotations, and then to append                        these peptides to the original sequence (default: N)  
+-h             : show this help  
+-inc <file>    : specify whether only to handle some proteins in the fasta_file (default: all), otherwise please use this                     option to input a file containing protein accessions. These two kinds of accessions are both allowed:                        “sp|P31946|1433B_HUMAN” or “P31946”                
+-targetp <Y/N> : specify whether to use TargetP (SignalP) to predict transit or signal peptides, and then to append these                     peptides to the original sequence (default: N)   
+-spfile <file> : specify whether to get conflicting sequences from Swiss-Prot conflict annotations, and then to append                        these peptides to the original sequence (default: N)  
 
 ##Output
 ###1)	SAP heterogeneity database (also with a corresponding decoy database in the same directory, with a “decoy_” beginning filename):  
