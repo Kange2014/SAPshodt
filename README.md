@@ -3,7 +3,7 @@ SAPshodt
 
 Mass spectrometry (MS)-based proteomics analysis usually relies on database search. However, standard protein data-bases, such as NCBI-nr and Uniprot databases, don’t contain protein variants arising from SNPs that result in amino acid changes. Therefore, SAPshodt has been developed to introduce single amino acid polymorphism (SAP) information into an existing protein reference database on demand transmutator, enabling variant peptide detection in proteomics. 
 
-Preliminaries
+##Preliminaries
 To help understand this guide, the following keywords in the context mean:
 
 SNP: A single-nucleotide polymorphism (SNP) is a DNA sequence variation occurring when a single nucleotide — A, T, C or G — in the genome (or other shared sequence) differs between members of a biological speciesor paired chromosomes.
@@ -14,7 +14,7 @@ Trypsin: A serine protease found in the digestive system of many vertebrates, wh
 
 Tryptic peptide: Trypsin catalyses the hydrolysis of peptide bonds so that proteins can be broken down into smaller peptides. These peptides are tryptic peptides. In SAPshodt, for each SAP and their permutation occuring in the same tryptic peptide, we appended this enclosing tryptic peptide with substituted residues as well as the two flanking tryptic peptides to the original sequence. 
 
-Installation
+##Installation
 SAPshodt will run on the most common UNIX (e.g., Linux etc.) and windows platforms. Make sure that Perl is available on your system. Decide where you wish to keep the software. Uncompress and untar the package in that location when under UNIX platforms as follows (users can use  compression tools  like winrar to uncompress it under windows platform):
 >tar xvzf sapshodt.tar.gz
 
@@ -83,7 +83,7 @@ Users can also choose whether to add information about conflicting sequence entr
 	>gunzip uniprot_sprot_human.dat.gz
 This will produce a file “uniprot_sprot_human.dat”.
 
-To Run
+##To Run
 Run it from ./SAPshodt/bin/. You can run it this way, e.g.: 
 
 > nohup perl SAPshodt.pl –fasta <fasta_file> –sapfile <SAP file> –outfile <output file> &
@@ -99,7 +99,7 @@ Additional options:
 -targetp <Y/N>    : specify whether to use TargetP (SignalP) to predict transit or signal peptides, and then to append these                     peptides to the original sequence (default: N) 
 -spfile <file>    : specify whether to get conflicting sequences from Swiss-Prot conflict annotations, and then to append                        these peptides to the original sequence (default: N)
 
-Output
+##Output
 1)	SAP heterogeneity database (also with a corresponding decoy database in the same directory, with a “decoy_” beginning filename):
 
 a.	Example of modified uniprot entry:
@@ -147,7 +147,7 @@ Meanwhile, we're able to get its corresponding SAPs information from ensembl. So
 
 We find SAP can occur in each position. And we can compute the number of permutation easily: 4×4×4×2×4×3×7×3×3×3×4×6×2×2×2×4×6×2×4. This number is > 10 billion. Obviously, this is a very large number. And considering each peptide has at least 19 amino acids,  the new generated peptides will contain > 190 billion amino acids only for this peptide 42-60 of P68871. This can not be accepted, whatever for the hardware or software. So, it seems like it's not a good attempt to permute SNPs for any sequence. As we have seen, this will lead to the crash of softwares. We have applied a simplified strategy to handle this kind of peptides. For each SAP, we will produce a new peptide, but no any permutation between different SAPs. That is, one SAP, one new peptide. For the example above, it will only produce 3+3+3+1+3+2+6+2+2+2+3+5+1+1+1+3+5+1+3 = 50 new peptides. If there are such kind of proteins in the input file, we list all this kind of proteins in the “../tmp/problematic_proteins.txt”. Users can check it.
 
-Copyright & problems
+##Copyright & problems
 Copyright (c) 2012: Proteome Center Rostock.
 
 Author: Lu-Lu Zheng (mingkanghust@gmail.com).
