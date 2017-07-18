@@ -3,7 +3,8 @@ SAPshodt
 
 Mass spectrometry (MS)-based proteomics analysis usually relies on database search. However, standard protein data-bases, such as NCBI-nr and Uniprot databases, don’t contain protein variants arising from SNPs that result in amino acid changes. Therefore, SAPshodt has been developed to introduce single amino acid polymorphism (SAP) information into an existing protein reference database on demand transmutator, enabling variant peptide detection in proteomics. 
 
-##Preliminaries
+## Preliminaries
+
 To help understand this guide, the following keywords in the context mean:
 
 SNP: A single-nucleotide polymorphism (SNP) is a DNA sequence variation occurring when a single nucleotide — A, T, C or G — in the genome (or other shared sequence) differs between members of a biological speciesor paired chromosomes.
@@ -14,7 +15,7 @@ Trypsin: A serine protease found in the digestive system of many vertebrates, wh
 
 Tryptic peptide: Trypsin catalyses the hydrolysis of peptide bonds so that proteins can be broken down into smaller peptides. These peptides are tryptic peptides. In SAPshodt, for each SAP and their permutation occuring in the same tryptic peptide, we appended this enclosing tryptic peptide with substituted residues as well as the two flanking tryptic peptides to the original sequence. 
 
-##Installation
+## Installation
 SAPshodt will run on the most common UNIX (e.g., Linux etc.) and windows platforms. Make sure that Perl is available on your system. Decide where you wish to keep the software. Uncompress and untar the package in that location when under UNIX platforms as follows (users can use  compression tools  like winrar to uncompress it under windows platform):
 >tar xvzf sapshodt.tar.gz
 
@@ -33,11 +34,11 @@ c.	It is important to set the tmp directory for TargetP to the tmp directory for
 However, due to the TargetP 1.1 and SignalP 3.0’s limitation to UNIX platforms, for SAPshodt only UNIX platforms are feasible in this option.
 
 To prepare input files
-###1)	Human FASTA format file from Uniprot  
+### 1)	Human FASTA format file from Uniprot  
 
 The primary protein sequences used to generate a SAP heterogeneity database should be provided with FASTA format. It’s suggested that users get the primary protein sequences from Uniprot database. Users can either get the whole human proteome dataset from the websit (http://www.uniprot.org/) by advanced search or extracted from the UniProtKB/Swiss-Prot and UniProtKB/TrEMBL files reposited in ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/.Sometimes, you may only want to deal with a subset of this dataset, not the whole human proteome, you can list this subset’s all protein accessions in a new file, and one line, one accession. SAPshodt can automatically extract the subset sequences from the whole proteome.  
 
-###2)	SAP file from Ensembl  
+### 2)	SAP file from Ensembl  
 
 Single Amino acid Polymorphism (SAP) dataset can be downloaded from Ensembl by BioMart (http://www.ensembl.org/index.html). At present (to 2012-12-14), we can choose database “Ensembl Genes 69”, and then choose dataset “Homo sapiens genes (GRCh37.p8)”. In the “Filters”, we restrict the “Gene type” to “protein_coding” in the “GENE”, and “Variation type” to “missense_variant,stop_gained” in the “VARIATION”. In the “Attributes”, we choose “Variation” type and then choose detailed attributes to be included in the output. It should contain “Ensembl Protein ID”, “Protein location (aa)”, “Protein Allele”, “Reference ID” and “Variant Alleles” from “GERMLINE VARIATION INFORMATION”. The format is like this (tab delimited):  
 
@@ -78,12 +79,12 @@ H0YG80	55	R/C	rs148140490	C/T	ENSP00000442112
 The first three columns are required, which means protein accession, SAP location and SAP. And the last three columns here are only to indicate the source of SAPs. They’re not required any more in the following steps. Note: no header columns are allowed.  
 If users want to use their own SAP dataset, users should prepare the SAP dataset in the above’s format. In addition, it’s better to use protein IDs from Uniprot. These two kinds are both allowed:“sp|P31946|1433B_HUMAN” or “P31946”, and this “1433B_HUMAN” is not suggested.  
 
-###3)	Swiss-Prot annotation file
+### 3)	Swiss-Prot annotation file
 Users can also choose whether to add information about conflicting sequence entries contained in the Swiss-Prot database. For humans, the Swiss-Prot annotation file can be accessed in ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.dat.gz . Then, you can uncompress it:  
 	>gunzip uniprot_sprot_human.dat.gz
 This will produce a file “uniprot_sprot_human.dat”.  
 
-##To Run
+## To Run
 Run it from ./SAPshodt/bin/. You can run it this way, e.g.:   
 
 > nohup perl SAPshodt.pl –fasta <fasta_file> –sapfile <SAP file> –outfile <output file> &
@@ -120,7 +121,7 @@ MDHYDSQQTNDYMQPEEDWDRDLLLDPAWEKQQRKTFTAWCNSHLRKAGTQIENIEEDFRDGLKLMLLLEVISGERLAKP
 
 For each stop codon gain variation, it will produce a new entry for the primary entry protein. The ID is created with the primary entry plus a underline “_” and a number. And the sequence is the truncated sequence. “232R/*” means in the position 232, the amino acid R mutates into a stop codon.  
 
-###2)	Problematic sequences
+### 2)	Problematic sequences
 For some proteins, there are too many SAPs in their certain tryptic peptide. For example, the protein P68871 (http://www.uniprot.org/uniprot/P68871) is not a very long protein. It only contains 147 amino acids. If we cut it into trypsin peptides according to K|R rule that not followed by P, we can get the following peptides:
 “9 18 31 41 60 62 66 67 83 96 105 121 133 145 147”
 the first number 9 means 1-9 of P68871 is a trypsin peptide, and 18 means 10-18 is the second peptide...
@@ -147,7 +148,7 @@ Meanwhile, we're able to get its corresponding SAPs information from ensembl. So
 
 We find SAP can occur in each position. And we can compute the number of permutation easily: 4×4×4×2×4×3×7×3×3×3×4×6×2×2×2×4×6×2×4. This number is > 10 billion. Obviously, this is a very large number. And considering each peptide has at least 19 amino acids,  the new generated peptides will contain > 190 billion amino acids only for this peptide 42-60 of P68871. This can not be accepted, whatever for the hardware or software. So, it seems like it's not a good attempt to permute SNPs for any sequence. As we have seen, this will lead to the crash of softwares. We have applied a simplified strategy to handle this kind of peptides. For each SAP, we will produce a new peptide, but no any permutation between different SAPs. That is, one SAP, one new peptide. For the example above, it will only produce 3+3+3+1+3+2+6+2+2+2+3+5+1+1+1+3+5+1+3 = 50 new peptides. If there are such kind of proteins in the input file, we list all this kind of proteins in the “../tmp/problematic_proteins.txt”. Users can check it.  
 
-##Copyright & problems
+## Copyright & problems
 Copyright (c) 2012: Proteome Center Rostock.  
 
 Author: Lu-Lu Zheng (mingkanghust@gmail.com).  
