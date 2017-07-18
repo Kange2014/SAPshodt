@@ -61,7 +61,7 @@ Since the UniProt Knowledgebase (UniProtKB) is the central hub for the collectio
 >gunzip Homo_sapiens.GRCh37.69.pep.all.fa.gz
 
 We have developed a perl script to convert the Ensembl-ID dataset into the Uniprot-ID dataset. You can run it like this:  
-> perl format_converter.pl -ensembl <fasta_file from ensembl> -uniprot <fasta_file from uniprot> -idmapping <id mapping file from uniprot> -sapfile <SAP file from ensembl> -outfile <output filename>
+>perl format_converter.pl -ensembl <fasta_file from ensembl> -uniprot <fasta_file from uniprot> -idmapping <id mapping file from uniprot> -sapfile <SAP file from ensembl> -outfile <output filename>
 
 The process involves:  
 1) all the SNPs should have a SNP database reference ID (e.g., dbSNP) to show their sources;  
@@ -87,7 +87,7 @@ This will produce a file “uniprot_sprot_human.dat”.
 ## To Run
 Run it from ./SAPshodt/bin/. You can run it this way, e.g.:   
 
-> nohup perl SAPshodt.pl –fasta <fasta_file> –sapfile <SAP file> –outfile <output file> &
+>nohup perl SAPshodt.pl –fasta <fasta_file> –sapfile <SAP file> –outfile <output file> &
 
 -fasta <fasta_file>     : FASTA-format protein sequence file from Uniprot to be handled  
 -sapfile <SAP file>     : Uniprot-ID SAP file including “Protein Accession”, “Location” and “SAP” each line  
@@ -100,8 +100,8 @@ Additional options:
 -targetp <Y/N> : specify whether to use TargetP (SignalP) to predict transit or signal peptides, and then to append these                     peptides to the original sequence (default: N)   
 -spfile <file> : specify whether to get conflicting sequences from Swiss-Prot conflict annotations, and then to append                        these peptides to the original sequence (default: N)  
 
-##Output
-###1)	SAP heterogeneity database (also with a corresponding decoy database in the same directory, with a “decoy_” beginning filename):  
+## Output
+### 1)	SAP heterogeneity database (also with a corresponding decoy database in the same directory, with a “decoy_” beginning filename):  
 
 a.	Example of modified uniprot entry:  
 >O60911 Cathepsin L2 OS=Homo sapiens GN=CTSL2 PE=1 SV=2 lng=334 # SP[336,V,18,V]SNP[371,A,81,G]SNP[411,R,81,G]CON[444,P,81,G] #
